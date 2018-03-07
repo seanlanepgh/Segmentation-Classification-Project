@@ -36,7 +36,7 @@ for j = 1: length(srcFiles)
 %Contrast = imadjust(Equal);
 %figure,imshow(Contrast);
 
-    %Imed = medfilt2(I,[5 5], 'zeros');
+    Imed = medfilt2(I,[5 5], 'zeros');
     %figure,imshow(Imed);
     %bw = imbinarize(Imed,0.95);
 %figure , imshow(bw);
@@ -52,11 +52,11 @@ L = watershed(gradmag);
 Lrgb = label2rgb(L);
 %figure, imshow(Lrgb), title('Watershed transform of gradient magnitude (Lrgb)')
 se = strel('disk', 10);
-Io = imopen(Equal, se);
+Io = imopen(I, se);
 %figure
 %imshow(Io), title('Opening (Io)')
-  Ie = imerode(Equal, se);
-Iobr = imreconstruct(Ie, Equal);
+  Ie = imerode(I, se);
+Iobr = imreconstruct(Ie, I);
 %figure
 %imshow(Iobr), title('Opening-by-reconstruction (Iobr)') 
 Ioc = imclose(Io, se);
