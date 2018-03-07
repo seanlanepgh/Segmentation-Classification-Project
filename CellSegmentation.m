@@ -52,11 +52,11 @@ L = watershed(gradmag);
 Lrgb = label2rgb(L);
 %figure, imshow(Lrgb), title('Watershed transform of gradient magnitude (Lrgb)')
 se = strel('disk', 10);
-Io = imopen(I, se);
+Io = imopen(Imed, se);
 %figure
 %imshow(Io), title('Opening (Io)')
-  Ie = imerode(I, se);
-Iobr = imreconstruct(Ie, I);
+  Ie = imerode(Imed, se);
+Iobr = imreconstruct(Ie, Imed);
 %figure
 %imshow(Iobr), title('Opening-by-reconstruction (Iobr)') 
 Ioc = imclose(Io, se);
