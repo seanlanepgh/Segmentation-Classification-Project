@@ -11,52 +11,39 @@ for j = 1: length(srcFiles)
     filename = strcat('C:\Users\Sean Lane\Desktop\CellImages\',srcFiles(j).name);
      info = imfinfo(filename);
      disp(info)
-   % A = imread(filename, k);
+   
     I = uint8(imread(filename));
      se = strel('disk',9);
    % J = imsubtract(imadd(I,imtophat(I,se)),imbothat(I,se));
     % ... Do something with image A ...
-    %disp(X)
-    %figure,imshow(X);
-    %disp(map)
-   % figure,imshow(map);
-   % figure,imshow(I);
-  % figure,imcontour(I,20);
+   
 %%
    
-    %figure, imhist(I,256);
 
-%Equal = histeq(I,256);
-  % figure, imhist(I,256);
+Equal = histeq(I,256);
 
-%Equal2 = histeq(Equal,256);
-%figure,imshow(Equal2);
-%title('Equalised');
- %figure, imhist(Equal,256);
 %Contrast = imadjust(Equal);
 %figure,imshow(Contrast);
 
-    Imed = medfilt2(I,[5 5], 'zeros');
+    %Imed = medfilt2(I,[5 5], 'zeros');
     %figure,imshow(Imed);
-    %bw = imbinarize(Imed,0.95);
-%figure , imshow(bw);
 %}
    
 hy = fspecial('sobel');
 hx = hy';
-Iy = imfilter(double(I), hy, 'replicate');
-Ix = imfilter(double(I), hx, 'replicate');
+Iy = imfilter(double(Equal), hy, 'replicate');
+Ix = imfilter(double(Equal), hx, 'replicate');
 gradmag = sqrt(Ix.^2 + Iy.^2);
 %figure ,imshow(gradmag,[]), title('Gradient magnitude (gradmag)')
 L = watershed(gradmag);
 Lrgb = label2rgb(L);
 %figure, imshow(Lrgb), title('Watershed transform of gradient magnitude (Lrgb)')
 se = strel('disk', 10);
-Io = imopen(Imed, se);
+Io = imopen(Equal, se);
 %figure
 %imshow(Io), title('Opening (Io)')
-  Ie = imerode(Imed, se);
-Iobr = imreconstruct(Ie, Imed);
+  Ie = imerode(Equal, se);
+Iobr = imreconstruct(Ie, Equal);
 %figure
 %imshow(Iobr), title('Opening-by-reconstruction (Iobr)') 
 Ioc = imclose(Io, se);
