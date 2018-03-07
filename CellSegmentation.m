@@ -14,7 +14,7 @@ for j = 1: length(srcFiles)
    
     I = uint8(imread(filename));
      se = strel('disk',9);
-   % J = imsubtract(imadd(I,imtophat(I,se)),imbothat(I,se));
+    J = imsubtract(imadd(I,imtophat(I,se)),imbothat(I,se));
     % ... Do something with image A ...
    
 %%
@@ -31,19 +31,19 @@ Equal = histeq(I,256);
    
 hy = fspecial('sobel');
 hx = hy';
-Iy = imfilter(double(Equal), hy, 'replicate');
-Ix = imfilter(double(Equal), hx, 'replicate');
+Iy = imfilter(double(J), hy, 'replicate');
+Ix = imfilter(double(J), hx, 'replicate');
 gradmag = sqrt(Ix.^2 + Iy.^2);
 %figure ,imshow(gradmag,[]), title('Gradient magnitude (gradmag)')
 L = watershed(gradmag);
 Lrgb = label2rgb(L);
 %figure, imshow(Lrgb), title('Watershed transform of gradient magnitude (Lrgb)')
 se = strel('disk', 10);
-Io = imopen(Equal, se);
+Io = imopen(J, se);
 %figure
 %imshow(Io), title('Opening (Io)')
-  Ie = imerode(Equal, se);
-Iobr = imreconstruct(Ie, Equal);
+  Ie = imerode(J, se);
+Iobr = imreconstruct(Ie,J);
 %figure
 %imshow(Iobr), title('Opening-by-reconstruction (Iobr)') 
 Ioc = imclose(Io, se);
