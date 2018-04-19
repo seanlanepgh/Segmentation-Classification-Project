@@ -104,24 +104,6 @@ Lrgb = label2rgb(L, 'jet', 'w', 'shuffle');
 %figure
 %imshow(I)
 
-close all;	% Close all figure windows except those created by imtool.
-
-    [idx, centroids]=kmeans(double(I(:)),3,'distance','sqEuclidean','Replicates',3);
-segmented_images = cell(1,7);
-for k = 1:7
-    color = zeros(size(I));
-    color(idx==k) = I(idx==k);
-    segmented_images{k} = color;
-end
-
-figure(),imshow(segmented_images{1},[]);
-figure(),imshow(segmented_images{2},[]);
-figure(),imshow(segmented_images{3},[]);
-
-segmentedMask = segmented_images{2}+ segmented_images{3};
-I(~segmentedMask)=0;
-figure, imshow(I);
-figure, imshow(segmentedMask);
 %hold on
 %himage = imshow(Lrgb);
 %himage.AlphaData = 0.3;
